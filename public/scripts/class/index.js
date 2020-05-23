@@ -57,9 +57,10 @@ window.onload = function () {
           location.reload()
         }).then(function () {
           fetch('class/api/list')
-            .then(function (response) {
-              console.log(response)
-              a// lert(response)
+            .then(function (response, json) {
+              // console.log(response)
+              // alert(json.response)
+              alert(response)
               localStorage.setItem('classList_', JSON.stringify(response))
               // alert(JSON.parse(localStorage.getItem('classList_')))
             })
