@@ -1,3 +1,37 @@
+// localStorage - set the classList in classRoutes
+
+window.onload = function () {
+  if (localStorage.getItem('classList_') === null) {
+    const info = []
+  }
+  const info = localStorage.getItem('classList_') // document.getElementById('newStudentInput').value
+  try {
+    fetch('/class/api/createList', {
+      method: 'post', // specify method to use
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(info) // fill body of request
+    })
+      .then(function (response) {
+        if (response.ok) {
+          return response.json()
+        } // Return the response parse as JSON if code is valid
+        else { throw 'Failed!' }
+      })
+      .then(function () {
+        location.reload()
+      }).catch(function (e) { // Process error for request
+        alert(e) // Displays a browser alert with the error message.
+        // This will be the string thrown in line 7 IF the
+        // response code is the reason for jumping to this
+        // catch() function.
+      })
+  } catch (err) {
+    console.error(`Error: ${err}`)
+  }
+}
+
 // Add, Delete, Edit Student
 window.onload = function () {
   // Adding the student
@@ -20,8 +54,15 @@ window.onload = function () {
           else { throw 'Failed!' }
         })
         .then(function () {
-          localStorage.setItem('classList_', document.getElementById('classList'))
           location.reload()
+        }).then(function () {
+          fetch('class/api/list')
+            .then(function (response) {
+              console.log(response)
+              a// lert(response)
+              localStorage.setItem('classList_', JSON.stringify(response))
+              // alert(JSON.parse(localStorage.getItem('classList_')))
+            })
         }).catch(function (e) { // Process error for request
           alert(e) // Displays a browser alert with the error message.
           // This will be the string thrown in line 7 IF the
@@ -54,6 +95,9 @@ window.onload = function () {
         })
         .then(function () {
           location.reload()
+        }).then(function () {
+          const list = document.getElementById('classList')
+          localStorage.setItem('classList_', JSON.stringify(list))
         }).catch(function (e) { // Process error for request
           alert(e) // Displays a browser alert with the error message.
           // This will be the string thrown in line 7 IF the
@@ -90,7 +134,11 @@ window.onload = function () {
         })
         .then(function () {
           location.reload()
-        }).catch(function (e) { // Process error for request
+        }).then(function () {
+          const list = document.getElementById('classList')
+          localStorage.setItem('classList_', JSON.stringify(list))
+        })
+        .catch(function (e) { // Process error for request
           alert(e) // Displays a browser alert with the error message.
         // This will be the string thrown in line 7 IF the
         // response code is the reason for jumping to this
@@ -112,10 +160,7 @@ fetch('/class/api/list') // Returns a Promise for the GET request
   .then(function (data) { // Display the JSON data appropriately
     // Retrieve the classList outer element
 
-    // const classList = document.getElementById('classList')
-    const classList = JSON.parse(localStorage.getItem('classList_'))
-    // alert(localStorage.getItem('classList_'))
-
+    const classList = document.getElementById('classList')
     // Iterate through all students
     data.forEach(function (student) {
       // Create a new list entry

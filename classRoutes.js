@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const router = express.Router()
-const classList = [] // our class list array
+var classList = [] // our class list array
 
 router.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'views', 'class', 'index.html'))
@@ -17,6 +17,13 @@ router.get('/api/get/:id', function (req, res) {
   res.json(classList[req.params.id]) // Notice the wildcard in the URL?
   // Try browsing to /api/get/0 once you've added some entries
 })
+
+// for local storage
+router.post('/api/createList', function (req, res) {
+  classList = req.body
+  res.status(201).json({ statusMessage: '201 Created List' })
+})
+
 // Create
 router.post('/api/create', function (req, res) {
   console.log('Creating the following student:', req.body.student)
