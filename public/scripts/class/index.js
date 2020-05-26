@@ -1,26 +1,22 @@
-// localStorage - set the classList in classRoutes
-
+// Add, Delete, Edit Student
 window.onload = function () {
-  if (localStorage.getItem('classList_') === null) {
+  // Localstorage
+  if (localStorage.getItem('classList_') === 0) {
     const info = []
-  }
-  const info = localStorage.getItem('classList_') // document.getElementById('newStudentInput').value
+  } else { const info = localStorage.getItem('classList_') }
   try {
     fetch('/class/api/createList', {
       method: 'post', // specify method to use
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(info) // fill body of request
+      body: info // fill body of request
     })
       .then(function (response) {
         if (response.ok) {
           return response.json()
         } // Return the response parse as JSON if code is valid
         else { throw 'Failed!' }
-      })
-      .then(function () {
-        location.reload()
       }).catch(function (e) { // Process error for request
         alert(e) // Displays a browser alert with the error message.
         // This will be the string thrown in line 7 IF the
@@ -30,10 +26,6 @@ window.onload = function () {
   } catch (err) {
     console.error(`Error: ${err}`)
   }
-}
-
-// Add, Delete, Edit Student
-window.onload = function () {
   // Adding the student
   const buttonAdd = document.getElementById('addStudentButton')
   buttonAdd.addEventListener('click', async _ => {
@@ -52,18 +44,16 @@ window.onload = function () {
             return response.json()
           } // Return the response parse as JSON if code is valid
           else { throw 'Failed!' }
-        })
-        .then(function () {
-          location.reload()
         }).then(function () {
-          fetch('class/api/list')
-            .then(function (response, json) {
-              // console.log(response)
-              // alert(json.response)
-              alert(response)
-              localStorage.setItem('classList_', JSON.stringify(response))
-              // alert(JSON.parse(localStorage.getItem('classList_')))
-            })
+          return fetch('/class/api/list')
+        }).then(function (response) {
+          if (response.ok) {
+            return response.json() // Return the response parse as JSON if code is valid
+          } else { throw new Error('Failed to load classlist: response code invalid!') }
+        }).then(function (data) {
+          localStorage.setItem('classList_', JSON.stringify(data))
+        }).then(function () {
+          location.reload()
         }).catch(function (e) { // Process error for request
           alert(e) // Displays a browser alert with the error message.
           // This will be the string thrown in line 7 IF the
@@ -93,8 +83,15 @@ window.onload = function () {
             return response.json()
           } // Return the response parse as JSON if code is valid
           else { throw 'Failed!' }
-        })
-        .then(function () {
+        }).then(function () {
+          return fetch('/class/api/list')
+        }).then(function (response) {
+          if (response.ok) {
+            return response.json() // Return the response parse as JSON if code is valid
+          } else { throw new Error('Failed to load classlist: response code invalid!') }
+        }).then(function (data) {
+          localStorage.setItem('classList_', JSON.stringify(data))
+        }).then(function () {
           location.reload()
         }).then(function () {
           const list = document.getElementById('classList')
@@ -132,8 +129,15 @@ window.onload = function () {
             return response.json()
           } // Return the response parse as JSON if code is valid
           else { throw 'Failed!' }
-        })
-        .then(function () {
+        }).then(function () {
+          return fetch('/class/api/list')
+        }).then(function (response) {
+          if (response.ok) {
+            return response.json() // Return the response parse as JSON if code is valid
+          } else { throw new Error('Failed to load classlist: response code invalid!') }
+        }).then(function (data) {
+          localStorage.setItem('classList_', JSON.stringify(data))
+        }).then(function () {
           location.reload()
         }).then(function () {
           const list = document.getElementById('classList')
