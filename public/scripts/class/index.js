@@ -1,12 +1,12 @@
 // Add, Delete, Edit Student
 window.onload = function () {
   // Localstorage
+  let info = []
+
   if (localStorage.getItem('classList_') === 0) {
-    const info = []
-    alert(`this is the empty one${info}`)
+    info = []
   } else {
-    const info = localStorage.getItem('classList_')
-    alert(`this is the locally stored one${info}`)
+    info = localStorage.getItem('classList_')
   }
   try {
     fetch('/class/api/createList', {
@@ -80,7 +80,7 @@ window.onload = function () {
           } else { throw new Error('Failed to load classlist: response code invalid!') }
         }).then(function (data) {
           localStorage.setItem('classList_', JSON.stringify(data))
-          alert(`this is the added one${localStorage.getItem('classList_')}`)
+          // alert(`this is the added one${localStorage.getItem('classList_')}`)
         }).then(function () {
           location.reload()
         }).catch(function (e) { // Process error for request
@@ -120,11 +120,9 @@ window.onload = function () {
           } else { throw new Error('Failed to load classlist: response code invalid!') }
         }).then(function (data) {
           localStorage.setItem('classList_', JSON.stringify(data))
+          // alert(`this is the added one${localStorage.getItem('classList_')}`)
         }).then(function () {
           location.reload()
-        }).then(function () {
-          const list = document.getElementById('classList')
-          localStorage.setItem('classList_', JSON.stringify(list))
         }).catch(function (e) { // Process error for request
           alert(e) // Displays a browser alert with the error message.
           // This will be the string thrown in line 7 IF the
@@ -166,13 +164,10 @@ window.onload = function () {
           } else { throw new Error('Failed to load classlist: response code invalid!') }
         }).then(function (data) {
           localStorage.setItem('classList_', JSON.stringify(data))
+          // alert(`this is the added one${localStorage.getItem('classList_')}`)
         }).then(function () {
           location.reload()
-        }).then(function () {
-          const list = document.getElementById('classList')
-          localStorage.setItem('classList_', JSON.stringify(list))
-        })
-        .catch(function (e) { // Process error for request
+        }).catch(function (e) { // Process error for request
           alert(e) // Displays a browser alert with the error message.
         // This will be the string thrown in line 7 IF the
         // response code is the reason for jumping to this
@@ -183,34 +178,3 @@ window.onload = function () {
     }
   })
 }
-
-fetch('/class/api/list') // Returns a Promise for the GET request
-  .then(function (response) {
-    // Check if the request returned a valid code
-    if (response.ok) {
-      return response.json() // Return the response parse as JSON if code is valid
-    } else { throw new Error('Failed to load classlist: response code invalid!') }
-  })
-  .then(function (data) { // Display the JSON data appropriately
-    // Retrieve the classList outer element
-
-    const classList = document.getElementById('classList')
-    // Iterate through all students
-    data.forEach(function (student) {
-      // Create a new list entry
-      const li = document.createElement('LI')
-      const liText = document.createTextNode(student)
-      // Append the class to the list element
-      li.className += 'student'
-
-      // Append list text to list item and list item to list
-      li.appendChild(liText)
-      classList.appendChild(li)
-    })
-  })
-  .catch(function (e) { // Process error for request
-    alert(e) // Displays a browser alert with the error message.
-    // This will be the string thrown in line 7 IF the
-    // response code is the reason for jumping to this
-    // catch() function.
-  })
