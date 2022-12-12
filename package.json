@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/Peanut58/ELEN4010_Lab_2#readme",
   "dependencies": {
-    "express": "4.17.1"
+    "express": "4.17.3"
   }
 }
